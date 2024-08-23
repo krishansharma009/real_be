@@ -1,46 +1,63 @@
-const CandidteCibil = require("./candidte-cibil"); // Ensure the correct path
+const CandidteCibil = require("./candidte-cibil");
 const REST_API = require("../../util/api-util");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
-// Define the createCandidate controller function
-// const createCandidateCibil = async (req, res) => {
+// Set up multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const dir = "uploads/cibil";
+    fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
 
-//   const response = await REST_API._add(req, res, CandidteCibil);
-//   res.status(200).json(response);
-// };
+const upload = multer({ storage: storage });
 
 const createCandidateCibil = async (req, res) => {
-  let response;
-  const { ...updateData } = req.body;
-  let update = updateData[0];
-  let candidate_id = update.candidate_id;
-  let id = update.id;
-  console.log(id, candidate_id);
+  try {
+    upload.fields([
+      { name: "pan_card", maxCount: 1 },
+      { name: "cibil_report", maxCount: 1 },
+      { name: "aadhar_card", maxCount: 1 },
+    ])(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ error: err.message });
+      } else if (err) {
+        return res
+          .status(500)
+          .json({ error: "Unknown error occurred during file upload" });
+      }
 
-  console.log("updateData");
-  console.log(req.body);
+      const { pan_number, cibil_score, aadhar_number, candidate_id } = req.body;
 
-  const existEdu = await CandidteCibil.findOne({
-    where: { candidate_id, id },
-  });
-  console.log("data");
+      const newCibil = await CandidteCibil.create({
+        pan_number,
+        cibil_score,
+        aadhar_number,
+        candidate_id,
+        pan_card: req.files["pan_card"] ? req.files["pan_card"][0].path : null,
+        cibil_report: req.files["cibil_report"]
+          ? req.files["cibil_report"][0].path
+          : null,
+        aadhar_card: req.files["aadhar_card"]
+          ? req.files["aadhar_card"][0].path
+          : null,
+      });
 
-  if (!existEdu) {
-    return res.status(404).json({ error: "Cibil not found" });
+      res.status(201).json(newCibil);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
-
-  const [updatedRows] = await CandidteCibil.update(
-    {
-      pan_number: req.body.pan_number,
-      cibil_score: req.body.cibil_score,
-      aadhar_number: req.body.aadhar_number,
-    },
-    {
-      where: { candidate_id, id },
-    }
-  );
-  console.log(updatedRows);
-  response = { id, updated: updatedRows > 0 };
-  res.status(200).json(response);
 };
 
 const getCandidteListCibil = async (req, res) => {
@@ -59,30 +76,55 @@ const getCibilByCandidteId = async (req, res) => {
   );
   res.status(201).json(response);
 };
+
 const updateCandidteCibil = async (req, res) => {
-  // const response = await REST_API._update(req, res, CandidteCibil);
-  // res.status(201).json(response);
+  try {
+    upload.fields([
+      { name: "pan_card", maxCount: 1 },
+      { name: "cibil_report", maxCount: 1 },
+      { name: "aadhar_card", maxCount: 1 },
+    ])(req, res, async function (err) {
+      console.log("-----------------------", req.files);
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ error: err.message });
+      } else if (err) {
+        return res
+          .status(500)
+          .json({ error: "Unknown error occurred during file upload" });
+      }
 
-  let response;
-  const { candidate_id, id, ...updateData } = req.body;
-  console.log(updateData);
+      const { candidate_id, id, ...updateData } = req.body;
 
-  console.log("updateData");
-  const existEdu = await CandidteCibil.findOne({
-    where: { candidate_id, id },
-  });
-  console.log(existEdu, "data");
+      const existEdu = await CandidteCibil.findOne({
+        where: { candidate_id, id },
+      });
 
-  if (!existEdu) {
-    return res.status(404).json({ error: "Cibil not found" });
+      if (!existEdu) {
+        return res.status(404).json({ error: "Cibil not found" });
+      }
+
+      // Add file paths to updateData if files were uploaded
+      if (req.files["pan_card"]) {
+        updateData.pan_card = req.files["pan_card"][0].path;
+      }
+      if (req.files["cibil_report"]) {
+        updateData.cibil_report = req.files["cibil_report"][0].path;
+      }
+      if (req.files["aadhar_card"]) {
+        updateData.aadhar_card = req.files["aadhar_card"][0].path;
+      }
+
+      const [updatedRows] = await CandidteCibil.update(updateData, {
+        where: { candidate_id, id },
+      });
+
+      const response = { id, updated: updatedRows > 0 };
+      res.status(200).json(response);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
-
-  const [updatedRows] = await CandidteCibil.update(updateData, {
-    where: { candidate_id, id },
-  });
-  console.log(id);
-  response = { id, updated: updatedRows > 0 };
-  res.status(200).json(response);
 };
 
 const deleteCandidateCibil = async (req, res) => {

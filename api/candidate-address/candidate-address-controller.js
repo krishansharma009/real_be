@@ -106,8 +106,7 @@ const updateCandidteAddress = async (req, res) => {
             return { id: address.id, updated: updatedRows > 0 };
           })
         );
-      }
-       else {
+      } else {
         // Single update
         const { candidate_id, id, ...updateData } = addressData;
 

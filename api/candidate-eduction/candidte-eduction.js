@@ -1,15 +1,27 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../../config/data-source");
 
-class CandidteEduction extends Model {}
-CandidteEduction.init(
+class CandidateEducation extends Model {}
+CandidateEducation.init(
   {
     education_type: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    name_of_certificate: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     course_name: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    institution_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    institution_address: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     university_name: {
@@ -24,13 +36,16 @@ CandidteEduction.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-
+    grade: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     gpa_percentage: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     certificate: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     candidate_id: {
@@ -46,11 +61,15 @@ CandidteEduction.init(
       allowNull: true,
     },
     createdAt: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     updatedAt: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    highest_qualify: {
+      type: DataTypes.ENUM("12th", "Graduation", "Master's", "PhD", "Other"),
       allowNull: true,
     },
     country: {
@@ -65,16 +84,24 @@ CandidteEduction.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    duration_start: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    duration_end: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     certificate_number: {
       type: DataTypes.STRING,
       allowNull: true,
     },
   },
   {
-    sequelize, // Pass the sequelize instance here
-    modelName: "CandidteEduction", // Choose the model name
+    sequelize,
+    modelName: "CandidateEducation",
     tableName: "candidate_education",
   }
 );
 
-module.exports = CandidteEduction; // Use module.exports for consistency
+module.exports = CandidateEducation;

@@ -9,8 +9,6 @@ const REST_API = require("../../util/api-util");
 //   res.status(200).json(response);
 // };
 
-
-
 const createCandidateReference = async (req, res) => {
   let response;
   const { ...updateData } = req.body;
@@ -19,13 +17,13 @@ const createCandidateReference = async (req, res) => {
   let id = update.id;
   console.log(id, candidate_id);
 
-  console.log("updateData");
-  console.log(req.body);
+  console.log(candidate_id, id);
 
   const existEdu = await CandidteReference.findOne({
     where: { candidate_id, id },
   });
-  console.log("data");
+
+  console.log("data", existEdu);
 
   if (!existEdu) {
     return res.status(404).json({ error: " reference  not found" });
@@ -33,12 +31,12 @@ const createCandidateReference = async (req, res) => {
 
   const [updatedRows] = await CandidteReference.update(
     {
-      ref_name: req.body.ref_name,
-      ref_designation: req.body.ref_designation,
-      company_name: req.body.company_name,
-      ref_contact_num: req.body.ref_contact_num,
-      ref_email: req.body.ref_email,
-      ref_relationship: req.body.ref_relationship,
+      ref_name: update.ref_name,
+      ref_designation: update.ref_designation,
+      company_name: update.company_name,
+      ref_contact_num: update.ref_contact_num,
+      ref_email: update.ref_email,
+      ref_relationship: update.ref_relationship,
     },
     {
       where: { candidate_id, id },

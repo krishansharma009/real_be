@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../../config/data-source"); // Import the sequelize instance
+const sequelize = require("../../config/data-source");
 
 class CandidteCibil extends Model {}
 CandidteCibil.init(
@@ -9,7 +9,7 @@ CandidteCibil.init(
       allowNull: true,
     },
     pan_card: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     cibil_score: {
@@ -17,7 +17,7 @@ CandidteCibil.init(
       allowNull: true,
     },
     cibil_report: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     aadhar_number: {
@@ -25,7 +25,7 @@ CandidteCibil.init(
       allowNull: true,
     },
     aadhar_card: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     candidate_id: {
@@ -41,19 +41,19 @@ CandidteCibil.init(
       allowNull: true,
     },
     createdAt: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     updatedAt: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
   },
   {
-    sequelize, // Pass the sequelize instance here
-    modelName: "CandidteCibil", // Choose the model name
+    sequelize,
+    modelName: "CandidteCibil",
     tableName: "candidate_cibil",
   }
 );
 
-module.exports = CandidteCibil; // Use module.exports for consistency
+module.exports = CandidteCibil;

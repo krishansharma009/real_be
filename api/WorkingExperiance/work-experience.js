@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../../config/data-source"); // Import the sequelize instance
+const sequelize = require("../../config/data-source");
 
 class WorkExperience extends Model {}
 WorkExperience.init(
@@ -41,7 +41,7 @@ WorkExperience.init(
       allowNull: true,
     },
     salarySlip: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING, // Use STRING for file paths
       allowNull: true,
     },
     reasonForLeaving: {
@@ -49,11 +49,11 @@ WorkExperience.init(
       allowNull: true,
     },
     relievingLetter: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING, // Use STRING for file paths
       allowNull: true,
     },
     experienceLetter: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING, // Use STRING for file paths
       allowNull: true,
     },
     candidate_id: {
@@ -69,19 +69,19 @@ WorkExperience.init(
       allowNull: true,
     },
     createdAt: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     updatedAt: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
   },
   {
-    sequelize, // Pass the sequelize instance here
-    modelName: "WorkExperience", // Choose the model name
+    sequelize,
+    modelName: "WorkExperience",
     tableName: "work_experiences",
   }
 );
 
-module.exports = WorkExperience; // Use module.exports for consistency
+module.exports = WorkExperience;
