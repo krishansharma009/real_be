@@ -78,9 +78,12 @@ app.use("/workingExp", WorkingRouter);
 app.use("/fathers-document", FatherRouter);
 app.use("/internal-team", TeamregRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// Start the server locally for testing
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
 
 // Export the handler for AWS Lambda
 const server = awsServerlessExpress.createServer(app);
