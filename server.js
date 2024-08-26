@@ -86,6 +86,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Export the handler for AWS Lambda
-const server = awsServerlessExpress.createServer(app);
-exports.handler = (event, context) =>
-  awsServerlessExpress.proxy(server, event, context);
+// const server = awsServerlessExpress.createServer(app);
+// exports.handler = (event, context) =>
+//   awsServerlessExpress.proxy(server, event, context);
