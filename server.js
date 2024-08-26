@@ -60,7 +60,7 @@ sequelize
   });
 
 app.use("/_alive", async (req, res) => {
-  res.status(200).send("Welcome to monika");
+  res.status(200).send("hello guys this side gulshan");
 });
 app.use("/users", userRouter);
 app.use("/candidate", candidateRouter);
