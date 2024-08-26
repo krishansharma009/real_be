@@ -83,7 +83,7 @@ app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-Export the handler for AWS Lambda
+//Export the handler for AWS Lambda
 const server = awsServerlessExpress.createServer(app);
 exports.handler = (event, context) =>
   awsServerlessExpress.proxy(server, event, context);
