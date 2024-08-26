@@ -29,8 +29,8 @@ const port = process.env.PORT || 8080;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(passport.initialize());
-const path=require('path')
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));//
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); //
 
 // Comment out the authentication middleware
 /*
@@ -59,7 +59,7 @@ sequelize
   });
 
 app.use("/_alive", async (req, res) => {
-  res.status(200).send("Welcome to vitsinco.com");
+  res.status(200).send("Welcome to krishan");
 });
 app.use("/users", userRouter);
 app.use("/candidate", candidateRouter);
@@ -81,3 +81,8 @@ app.use("/internal-team", TeamregRouter);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+// Export the handler for AWS Lambda
+const server = awsServerlessExpress.createServer(app);
+exports.handler = (event, context) =>
+  awsServerlessExpress.proxy(server, event, context);
