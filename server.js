@@ -80,6 +80,11 @@ app.use("/candidate-workingExp", WorkingRouter);
 app.use("/fathers-document", FatherRouter);
 app.use("/internal-team", TeamregRouter);
 
+
+app.get("/gulshan", (req, resp) => {
+  resp.status(200).json({ Name: "Gulshan Kumar " });
+});
+
 // Start the server locally for testing
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
