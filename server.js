@@ -75,6 +75,7 @@ app.use("/internal-tea", internalTeamRouter);
 // app.use("/location", locationRouter);
 app.use("/location", locationRouter);
 app.use("/workingExp", WorkingRouter);
+app.use("/candidate-workingExp", WorkingRouter);
 app.use("/fathers-document", FatherRouter);
 app.use("/internal-team", TeamregRouter);
 
