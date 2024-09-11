@@ -24,6 +24,7 @@ const WorkingRouter = require("./api/WorkingExperiance/work-experience-routes");
 const FatherRouter = require("./api/fatherdoc/fathers-documents-routes");
 const TeamregRouter = require("./api/TeamRegistration/teamRoutes");
 const Userprofile = require("./api/userProfile/auth-routes");
+const Support = require("./api/Support/supportRoute");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -81,6 +82,7 @@ app.use("/candidate-workingExp", WorkingRouter);
 app.use("/fathers-document", FatherRouter);
 app.use("/internal-team", TeamregRouter);
 app.use("/profile", Userprofile);
+app.use("/support", Support);
 
 // Start the server locally for testing
 app.listen(port, () => {
