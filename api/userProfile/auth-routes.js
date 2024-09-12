@@ -12,4 +12,4 @@ router.get('/users/:id', authController.getUserById); //  authenticate,checkPerm
 router.put('/users/:id', authController.updateUser); //  authenticate,checkPermission('edit','userrole'),
 router.delete('/users/:id',  authController.deleteUser); // authenticate,checkPermission('delete','userrole'),
 
-module.exports = router;
+module.exports = router;//comment
