@@ -13,3 +13,4 @@ router.put('/users/:id', authController.updateUser); //  authenticate,checkPermi
 router.delete('/users/:id',  authController.deleteUser); // authenticate,checkPermission('delete','userrole'),
 
 module.exports = router;//comment
+//this
